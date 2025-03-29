@@ -24,6 +24,7 @@ import type { ViewMode } from "../App";
 import { SourceNode, LayerNode } from "./Nodes";
 
 import { DeletableEdge } from "./Edges/DeletableEdge";
+import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
 
 const nodeTypes = {
   source: SourceNode,
@@ -40,11 +41,11 @@ const initialEdges: Edge[] = [];
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-type FlowDiagramProps = {
+type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
 };
 
-export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
+export const DiagramView = ({ setViewMode }: DiagramViewProps) => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
@@ -99,13 +100,7 @@ export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
   return (
     <div className="dndflow">
       <Panel position="top-right">
-        <button
-          onClick={() => {
-            setViewMode("map");
-          }}
-        >
-          Map
-        </button>
+        <DiagramToolbar setViewMode={setViewMode} />
       </Panel>
       <Sidebar />
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
