@@ -1,15 +1,31 @@
 import { useCallback, type ChangeEvent } from "react";
-import { Handle, Position } from "@xyflow/react";
+import {
+  Handle,
+  NodeToolbar,
+  Position,
+  useReactFlow,
+  type Node,
+} from "@xyflow/react";
 
 import "./SourceNode.css";
 
-export const SourceNode = () => {
+// interface SourceNodeProps extends NodeProps<Node> {}
+
+export const SourceNode = ({ id }: Node) => {
+  const { deleteElements } = useReactFlow();
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
   }, []);
 
+  const handleDelete = () => {
+    deleteElements({ nodes: [{ id }] });
+  };
+
   return (
     <div className="source-node">
+      <NodeToolbar>
+        <button onClick={handleDelete}>delete</button>
+      </NodeToolbar>
       <div>Source</div>
       <Handle
         type="source"
