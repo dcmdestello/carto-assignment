@@ -37,7 +37,11 @@ const initialNodes = [
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-export const DiagramView = () => {
+type FlowDiagramProps = {
+  setViewMode: (mode: ViewMode) => void;
+};
+
+export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -84,6 +88,15 @@ export const DiagramView = () => {
 
   return (
     <div className="dndflow">
+      <div className="floatingAbsoluteActionsWrapper">
+        <button
+          onClick={() => {
+            setViewMode("map");
+          }}
+        >
+          Map
+        </button>
+      </div>
       <Sidebar />
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
         <ReactFlow
