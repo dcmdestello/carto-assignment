@@ -1,31 +1,17 @@
 import { useCallback, type ChangeEvent } from "react";
-import {
-  Handle,
-  NodeToolbar,
-  Position,
-  useReactFlow,
-  type Node,
-} from "@xyflow/react";
+import { Handle, Position, type Node } from "@xyflow/react";
 
-import "./SourceNode.css";
+import { BaseNode } from "./BaseNode";
 
-// interface SourceNodeProps extends NodeProps<Node> {}
+// interface SourceNodeProps extends Node {}
 
-export const SourceNode = ({ id }: Node) => {
-  const { deleteElements } = useReactFlow();
+export const SourceNode = (props: Node) => {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
   }, []);
 
-  const handleDelete = () => {
-    deleteElements({ nodes: [{ id }] });
-  };
-
   return (
-    <div className="source-node">
-      <NodeToolbar>
-        <button onClick={handleDelete}>delete</button>
-      </NodeToolbar>
+    <BaseNode {...props}>
       <div>Source</div>
       <Handle
         type="source"
@@ -38,6 +24,6 @@ export const SourceNode = ({ id }: Node) => {
         <label htmlFor="text">Url:</label>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
       </div>
-    </div>
+    </BaseNode>
   );
 };

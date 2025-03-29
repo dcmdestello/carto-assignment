@@ -19,10 +19,11 @@ import { useDnD } from "../DnDContext";
 
 import type { ViewMode } from "../App";
 
-import { SourceNode } from "./Nodes/SourceNode";
+import { SourceNode, LayerNode } from "./Nodes";
 
 const nodeTypes = {
   source: SourceNode,
+  layer: LayerNode,
 };
 
 const initialNodes = [
