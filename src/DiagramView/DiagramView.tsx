@@ -18,11 +18,8 @@ import "./DiagramView.css";
 
 import { Sidebar } from "./Sidebar";
 import { useDnD } from "../DnDContext";
-
 import type { ViewMode } from "../App";
-
 import { SourceNode, LayerNode } from "./Nodes";
-
 import { DeletableEdge } from "./Edges/DeletableEdge";
 import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
 
@@ -39,7 +36,7 @@ const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `node_${id++}`;
 
 type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
