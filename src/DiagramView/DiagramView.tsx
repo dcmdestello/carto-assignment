@@ -9,7 +9,6 @@ import {
   Background,
   Panel,
   type Edge,
-  type Node,
   type OnConnect,
 } from "@xyflow/react";
 
@@ -32,20 +31,23 @@ const edgeTypes = {
   deletable: DeletableEdge,
 };
 
-const initialNodes: Node[] = [];
-const initialEdges: Edge[] = [];
-
 let id = 0;
 const getId = () => `node_${id++}`;
 
 type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
+  nodesState: ReturnType<typeof useNodesState>;
+  edgesState: ReturnType<typeof useEdgesState>;
 };
 
-export const DiagramView = ({ setViewMode }: DiagramViewProps) => {
+export const DiagramView = ({
+  setViewMode,
+  nodesState,
+  edgesState,
+}: DiagramViewProps) => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
+  const [nodes, setNodes, onNodesChange] = nodesState;
+  const [edges, setEdges, onEdgesChange] = edgesState;
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
 
