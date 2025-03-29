@@ -7,8 +7,10 @@ import {
   Controls,
   useReactFlow,
   Background,
-  type Connection,
+  Panel,
   type Edge,
+  type Node,
+  type OnConnect,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -21,19 +23,19 @@ import type { ViewMode } from "../App";
 
 import { SourceNode, LayerNode } from "./Nodes";
 
+import { DeletableEdge } from "./Edges/DeletableEdge";
+
 const nodeTypes = {
   source: SourceNode,
   layer: LayerNode,
 };
 
-const initialNodes = [
-  {
-    id: "1",
-    type: "input",
-    data: { label: "input node" },
-    position: { x: 250, y: 5 },
-  },
-];
+const edgeTypes = {
+  deletable: DeletableEdge,
+};
+
+const initialNodes: Node[] = [];
+const initialEdges: Edge[] = [];
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -44,14 +46,22 @@ type FlowDiagramProps = {
 
 export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
 
-  const onConnect = useCallback(
-    (connection: Connection) =>
-      setEdges((edges: Edge[]) => addEdge(connection, edges)),
+  const onConnect: OnConnect = useCallback(
+    (connection) => {
+      const newEdge: Edge = {
+        id: "e" + connection.source + "-" + connection.target,
+        source: connection.source,
+        target: connection.target,
+        type: "deletable",
+      };
+
+      setEdges((edges: Edge[]) => addEdge(newEdge, edges));
+    },
     [setEdges]
   );
 
@@ -66,7 +76,6 @@ export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      // check if the dropped element is valid
       if (!type) {
         return;
       }
@@ -89,7 +98,7 @@ export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
 
   return (
     <div className="dndflow">
-      <div className="floatingAbsoluteActionsWrapper">
+      <Panel position="top-right">
         <button
           onClick={() => {
             setViewMode("map");
@@ -97,7 +106,7 @@ export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
         >
           Map
         </button>
-      </div>
+      </Panel>
       <Sidebar />
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
         <ReactFlow
@@ -109,6 +118,7 @@ export const DiagramView = ({ setViewMode }: FlowDiagramProps) => {
           onDrop={onDrop}
           onDragOver={onDragOver}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           style={{ backgroundColor: "#F7F9FB" }}
         >
