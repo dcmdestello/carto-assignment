@@ -1,11 +1,11 @@
 import { useCallback, type ChangeEvent } from "react";
-import { Handle, Position, type Node } from "@xyflow/react";
+import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
 
 import { BaseNode } from "./BaseNode";
 
 // interface SourceNodeProps extends Node {}
 
-export const SourceNode = (props: Node) => {
+export const SourceNode = (props: NodeProps<Node>) => {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
   }, []);

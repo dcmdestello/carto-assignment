@@ -1,8 +1,13 @@
-import { NodeToolbar, useReactFlow, type Node } from "@xyflow/react";
+import {
+  NodeToolbar,
+  useReactFlow,
+  type NodeProps,
+  type Node,
+} from "@xyflow/react";
 
 import "./BaseNode.css";
 
-interface BaseNodeProps extends Node {
+interface BaseNodeProps extends NodeProps<Node> {
   children: React.ReactNode;
 }
 
