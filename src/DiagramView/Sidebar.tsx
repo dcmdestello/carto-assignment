@@ -1,7 +1,7 @@
 import { type DragEvent } from "react";
 import { useDnD } from "../DnDContext";
 
-type NodeType = "input" | "default" | "output" | "source";
+type NodeType = "input" | "default" | "output" | "source" | "layer";
 
 export const Sidebar = () => {
   const [_, setType] = useDnD();
@@ -20,32 +20,18 @@ export const Sidebar = () => {
         You can drag these nodes to the pane on the right.
       </div>
       <div
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "input")}
-        draggable
-      >
-        Input Node
-      </div>
-      <div
-        className="dndnode"
-        onDragStart={(event) => onDragStart(event, "default")}
-        draggable
-      >
-        Default Node
-      </div>
-      <div
-        className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "output")}
-        draggable
-      >
-        Output Node
-      </div>
-      <div
         className="dndnode output"
         onDragStart={(event) => onDragStart(event, "source")}
         draggable
       >
         Source Node
+      </div>
+      <div
+        className="dndnode output"
+        onDragStart={(event) => onDragStart(event, "layer")}
+        draggable
+      >
+        Layer Node
       </div>
     </aside>
   );
