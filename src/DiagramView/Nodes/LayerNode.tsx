@@ -1,20 +1,13 @@
-import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
+import { Position, type NodeProps, type Node } from "@xyflow/react";
 
 import { BaseNode } from "./BaseNode";
-
-// interface LayerNodeProps extends Node {}
+import { SingleConnectionHandle } from "./SingleConnectionHandle";
 
 export const LayerNode = (props: NodeProps<Node>) => {
   return (
     <BaseNode {...props}>
       <div>Layer</div>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id="a"
-        // style={handleStyle}
-        isConnectable
-      />
+      <SingleConnectionHandle type="target" position={Position.Left} id="a" />
     </BaseNode>
   );
 };

@@ -1,9 +1,8 @@
 import { useCallback, type ChangeEvent } from "react";
-import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
+import { Position, type NodeProps, type Node } from "@xyflow/react";
 
 import { BaseNode } from "./BaseNode";
-
-// interface SourceNodeProps extends Node {}
+import { SingleConnectionHandle } from "./SingleConnectionHandle";
 
 export const SourceNode = (props: NodeProps<Node>) => {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -13,13 +12,7 @@ export const SourceNode = (props: NodeProps<Node>) => {
   return (
     <BaseNode {...props}>
       <div>Source</div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="a"
-        // style={handleStyle}
-        isConnectable
-      />
+      <SingleConnectionHandle type="source" position={Position.Right} id="a" />
       <div>
         <label htmlFor="text">Url:</label>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
