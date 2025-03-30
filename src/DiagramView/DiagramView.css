@@ -7,17 +7,6 @@
   /* border: 2px solid blue; */
 }
 
-.dndflow aside {
-  border-right: 1px solid #eee;
-  padding: 15px 10px;
-  font-size: 12px;
-  background: #fcfcfc;
-}
-
-.dndflow aside .description {
-  margin-bottom: 10px;
-}
-
 .dndflow .dndnode {
   height: 20px;
   padding: 4px;

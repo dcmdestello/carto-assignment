@@ -1,6 +1,8 @@
 import { type DragEvent } from "react";
 import { useDnD } from "../DnDContext";
 
+import { SidebarContainer, SidebarDescription } from "./Sidebar.styles";
+
 type NodeType =
   | "input"
   | "default"
@@ -21,10 +23,10 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside>
-      <div className="description">
-        You can drag these nodes to the pane on the right.
-      </div>
+    <SidebarContainer>
+      <SidebarDescription>
+        Drag these nodes on to the diagram
+      </SidebarDescription>
       <div
         className="dndnode output"
         onDragStart={(event) => {
@@ -52,6 +54,6 @@ export const Sidebar = () => {
       >
         Intersection Node
       </div>
-    </aside>
+    </SidebarContainer>
   );
 };
