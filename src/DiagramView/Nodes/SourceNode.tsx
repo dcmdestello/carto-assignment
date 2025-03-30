@@ -1,12 +1,24 @@
 import { useCallback, type ChangeEvent } from "react";
-import { Position, type NodeProps, type Node } from "@xyflow/react";
+import {
+  Position,
+  type NodeProps,
+  type Node,
+  useReactFlow,
+} from "@xyflow/react";
 
 import { BaseNode } from "./BaseNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
 
-export const SourceNode = (props: NodeProps<Node>) => {
+export const SourceNode = (props: NodeProps<Node<{ url: string }, "url">>) => {
+  const { setNodes } = useReactFlow();
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === props.id
+          ? { ...node, data: { ...node.data, url: event.target.value } }
+          : node
+      )
+    );
   }, []);
 
   return (
@@ -14,8 +26,14 @@ export const SourceNode = (props: NodeProps<Node>) => {
       <div>Source</div>
       <SingleConnectionHandle type="source" position={Position.Right} id="a" />
       <div>
-        <label htmlFor="text">Url:</label>
-        <input id="text" name="text" onChange={onChange} className="nodrag" />
+        <label htmlFor="url">Url:</label>
+        <input
+          id="url"
+          name="url"
+          onChange={onChange}
+          className="nodrag"
+          value={props.data.url}
+        />
       </div>
     </BaseNode>
   );

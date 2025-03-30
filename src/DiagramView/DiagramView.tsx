@@ -92,7 +92,7 @@ export const DiagramView = ({
         id: getId(),
         type,
         position,
-        data: { label: `${type} node` },
+        data: {},
       };
 
       setNodes((nds) => nds.concat(newNode));
