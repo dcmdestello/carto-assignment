@@ -15,21 +15,21 @@ export type ViewMode = "diagram" | "map";
 
 const initialNodes = [
   {
-    id: "node_0",
+    id: "initial-node_0",
     type: "source",
     position: {
-      x: 210.16668701171875,
-      y: 63,
+      x: 200,
+      y: 60,
     },
     data: {
       url: "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson",
     },
   },
   {
-    id: "node_1",
+    id: "initial-node_1",
     type: "source",
     position: {
-      x: 202.16668701171875,
+      x: 200,
       y: 320,
     },
     data: {
@@ -37,19 +37,19 @@ const initialNodes = [
     },
   },
   {
-    id: "node_2",
+    id: "initial-node_2",
     type: "layer",
     position: {
-      x: 785.1666870117188,
-      y: 173,
+      x: 800,
+      y: 175,
     },
     data: {},
   },
   {
-    id: "node_3",
+    id: "initial-node_3",
     type: "layer",
     position: {
-      x: 806.1666870117188,
+      x: 800,
       y: 275,
     },
     data: {},
@@ -57,17 +57,17 @@ const initialNodes = [
 ];
 const initialEdges = [
   {
-    id: "enode_1-node_3",
-    source: "node_1",
-    target: "node_3",
+    id: "edge-initial-node_1-initial-node_3",
+    source: "initial-node_1",
+    target: "initial-node_3",
     sourceHandle: "a",
     targetHandle: "a",
     type: "deletable",
   },
   {
-    id: "enode_0-node_2",
-    source: "node_0",
-    target: "node_2",
+    id: "edge-initial-node_0-initial-node_2",
+    source: "initial-node_0",
+    target: "initial-node_2",
     sourceHandle: "a",
     targetHandle: "a",
     type: "deletable",

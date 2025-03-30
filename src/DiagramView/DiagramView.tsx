@@ -33,8 +33,10 @@ const edgeTypes = {
   deletable: DeletableEdge,
 };
 
+// t0 to prevent name collisions with nodes loaded from storage
+const t0 = Date.now();
 let id = 0;
-const getId = () => `node_${id++}`;
+const getId = () => `node_${id++}_${t0}`;
 
 type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
