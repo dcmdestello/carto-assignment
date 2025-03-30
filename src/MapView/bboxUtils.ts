@@ -1,7 +1,7 @@
 import type { BBox } from "geojson";
 
 export const combineBBoxes = (bboxes: BBox[]): BBox => {
-  const combinedBBox = [...bboxes[0]] as BBox;
+  const combinedBBox: BBox = [...bboxes[0]];
   for (let i = 1; i < bboxes.length; i++) {
     const bbox = bboxes[i];
     if (bbox[0] < combinedBBox[0]) combinedBBox[0] = bbox[0];

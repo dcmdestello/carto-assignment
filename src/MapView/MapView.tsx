@@ -7,7 +7,12 @@ import * as turf from "@turf/turf";
 
 import type { ViewMode } from "../App";
 import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
-import { buildLayers, calcLayers, type PropertiesType } from "./layers";
+import {
+  initGeoJsonLayer,
+  getLayerSourceNodes,
+  loadGeoJsonUrl,
+  type PropertiesType,
+} from "./layers";
 import { Button } from "@mui/material";
 import {
   FloatingMapToolbarContainer,
@@ -21,22 +26,34 @@ type MapViewProps = {
 };
 
 export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
-  const layerSources = useMemo(() => calcLayers(nodes, edges), [nodes, edges]);
-  const layers = layerSources.map(buildLayers);
+  const layerSources = useMemo(
+    () => getLayerSourceNodes(nodes, edges),
+    [nodes, edges]
+  );
+  // const layers = layerSources.map(buildLayers);
+  const [layers, setLayers] = useState<any[]>([]);
 
   useEffect(() => {
     const loadLayers = async (): Promise<void> => {
-      const geoJsonArray = (await Promise.all(
+      const geoJsonArray = await Promise.all(
         // TODO handle array of inputs / intersection
-        layerSources.map((sourceNode) =>
-          fetch(sourceNode[0].data.url as string).then((response) =>
-            response.json()
-          )
-        )
-      )) as turf.AllGeoJSON[];
-      const bboxes = geoJsonArray.map((geoJson) => {
-        return turf.bbox(geoJson);
+        layerSources.map((sourceNode) => {
+          if (!sourceNode) return null;
+          return loadGeoJsonUrl(sourceNode.data.url as string);
+        })
+      );
+
+      const geoJsonLayers = geoJsonArray.map((geoJson, index) => {
+        if (!geoJson) return null;
+        const layerSource = layerSources[index];
+        if (!layerSource) return null;
+        return initGeoJsonLayer(layerSource.id, geoJson);
       });
+      setLayers(geoJsonLayers.filter(Boolean));
+
+      const bboxes = geoJsonArray
+        .filter(Boolean)
+        .map((geoJson) => turf.bbox(geoJson as turf.AllGeoJSON));
       const bbox = combineBBoxes(bboxes);
       setInitialViewState(getViewStateFromBBox(bbox));
     };
