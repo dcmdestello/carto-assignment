@@ -21,22 +21,22 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
   const layers = layerSources.map(buildLayers);
 
   useEffect(() => {
-    const loadLayers = async () => {
-      const geoJsonArray = await Promise.all(
+    const loadLayers = async (): Promise<void> => {
+      const geoJsonArray = (await Promise.all(
         // TODO handle array of inputs / intersection
         layerSources.map((sourceNode) =>
           fetch(sourceNode[0].data.url as string).then((response) =>
             response.json()
           )
         )
-      );
+      )) as turf.AllGeoJSON[];
       const bboxes = geoJsonArray.map((geoJson) => {
         return turf.bbox(geoJson);
       });
       const bbox = combineBBoxes(bboxes);
       setInitialViewState(getViewStateFromBBox(bbox));
     };
-    loadLayers();
+    loadLayers().catch(console.error);
   }, [layerSources]);
 
   const [initialViewState, setInitialViewState] = useState<MapViewState>({
