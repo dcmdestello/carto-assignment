@@ -3,6 +3,7 @@ import {
   useReactFlow,
   type NodeProps,
   type Node,
+  Position,
 } from "@xyflow/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -22,8 +23,13 @@ export const BaseNode = ({ id, children, selected }: BaseNodeProps) => {
 
   return (
     <BaseNodeContainer selected={selected}>
-      <NodeToolbar>
-        <Fab size="small" aria-label="add" onClick={handleDelete}>
+      <NodeToolbar position={Position.Bottom}>
+        <Fab
+          size="small"
+          aria-label="add"
+          onClick={handleDelete}
+          sx={{ transform: "scale(0.75)" }}
+        >
           <DeleteIcon fontSize="small" />
         </Fab>
       </NodeToolbar>
