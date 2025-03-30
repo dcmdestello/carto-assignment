@@ -1,7 +1,8 @@
 import { useCallback } from "react";
-import { useReactFlow } from "@xyflow/react";
+import { ReactFlowJsonObject, useReactFlow } from "@xyflow/react";
 import type { ViewMode } from "../../App";
 import { Button } from "@mui/material";
+import { DiagramToolbarContainer } from "./DiagramToolbar.styles";
 
 interface DiagramToolbarProps {
   setViewMode: (mode: ViewMode) => void;
@@ -14,18 +15,16 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
   const { setNodes, setEdges, setViewport } = rfInstance;
 
   const handleSave = useCallback(() => {
-    if (rfInstance) {
-      const flow = rfInstance.toObject();
-      localStorage.setItem(FLOW_STORAGE_KEY, JSON.stringify(flow));
-    }
+    const flow = rfInstance.toObject();
+    localStorage.setItem(FLOW_STORAGE_KEY, JSON.stringify(flow));
   }, [rfInstance]);
 
   const handleLoad = useCallback(() => {
-    const loadFlowFromStorage = async () => {
+    const loadFlowFromStorage = () => {
       const data = localStorage.getItem(FLOW_STORAGE_KEY);
       if (!data) return;
 
-      const flow = JSON.parse(data);
+      const flow = JSON.parse(data) as ReactFlowJsonObject;
 
       if (flow) {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
@@ -44,8 +43,9 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
   }, [setNodes, setEdges]);
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
+    <DiagramToolbarContainer>
       <Button
+        size="small"
         onClick={() => {
           handleLoad();
         }}
@@ -53,6 +53,7 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
         Load
       </Button>
       <Button
+        size="small"
         onClick={() => {
           handleSave();
         }}
@@ -60,6 +61,7 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
         Save
       </Button>
       <Button
+        size="small"
         onClick={() => {
           handleClear();
         }}
@@ -67,6 +69,7 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
         Clear
       </Button>
       <Button
+        size="small"
         onClick={() => {
           setViewMode("map");
         }}
@@ -74,6 +77,6 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
       >
         Map
       </Button>
-    </div>
+    </DiagramToolbarContainer>
   );
 };

@@ -53,6 +53,7 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
     <MapViewContainer>
       <FloatingMapToolbarContainer>
         <Button
+          size="small"
           onClick={() => {
             setViewMode("diagram");
           }}
