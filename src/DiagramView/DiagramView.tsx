@@ -21,10 +21,12 @@ import type { ViewMode } from "../App";
 import { SourceNode, LayerNode } from "./Nodes";
 import { DeletableEdge } from "./Edges/DeletableEdge";
 import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
+import { IntersectionNode } from "./Nodes/IntersectionNode";
 
 const nodeTypes = {
   source: SourceNode,
   layer: LayerNode,
+  intersection: IntersectionNode,
 };
 
 const edgeTypes = {
@@ -57,6 +59,8 @@ export const DiagramView = ({
         id: "e" + connection.source + "-" + connection.target,
         source: connection.source,
         target: connection.target,
+        sourceHandle: connection.sourceHandle,
+        targetHandle: connection.targetHandle,
         type: "deletable",
       };
 

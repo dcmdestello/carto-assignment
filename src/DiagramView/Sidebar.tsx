@@ -1,7 +1,13 @@
 import { type DragEvent } from "react";
 import { useDnD } from "../DnDContext";
 
-type NodeType = "input" | "default" | "output" | "source" | "layer";
+type NodeType =
+  | "input"
+  | "default"
+  | "output"
+  | "source"
+  | "layer"
+  | "intersection";
 
 export const Sidebar = () => {
   const [_, setType] = useDnD();
@@ -32,6 +38,13 @@ export const Sidebar = () => {
         draggable
       >
         Layer Node
+      </div>
+      <div
+        className="dndnode output"
+        onDragStart={(event) => onDragStart(event, "intersection")}
+        draggable
+      >
+        Intersection Node
       </div>
     </aside>
   );
