@@ -1,4 +1,4 @@
-import { useRef, useCallback, type DragEvent } from "react";
+import { useCallback, type DragEvent } from "react";
 import {
   ReactFlow,
   addEdge,
@@ -8,7 +8,6 @@ import {
   useReactFlow,
   Background,
   Panel,
-  type Edge,
   type OnConnect,
 } from "@xyflow/react";
 
@@ -17,11 +16,11 @@ import "@xyflow/react/dist/style.css";
 import { Sidebar } from "./Sidebar";
 import { useDnD } from "../DnDContext";
 import type { ViewMode } from "../App";
-import { SourceNode, LayerNode } from "./Nodes";
-import { DeletableEdge } from "./Edges/DeletableEdge";
+import { SourceNode, LayerNode, IntersectionNode } from "./Nodes";
+import { DeletableEdge, DeletableFlowEdge } from "./Edges/DeletableEdge";
 import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
-import { IntersectionNode } from "./Nodes/IntersectionNode";
 import { DiagramViewContainer } from "./DiagramView.styles";
+import { CustomFlowNode } from "./Nodes/types";
 
 const nodeTypes = {
   source: SourceNode,
@@ -40,8 +39,8 @@ const getId = () => `node_${id++}_${t0}`;
 
 type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
-  nodesState: ReturnType<typeof useNodesState>;
-  edgesState: ReturnType<typeof useEdgesState>;
+  nodesState: ReturnType<typeof useNodesState<CustomFlowNode>>;
+  edgesState: ReturnType<typeof useEdgesState<DeletableFlowEdge>>;
 };
 
 export const DiagramView = ({
@@ -52,11 +51,11 @@ export const DiagramView = ({
   const [nodes, setNodes, onNodesChange] = nodesState;
   const [edges, setEdges, onEdgesChange] = edgesState;
   const { screenToFlowPosition } = useReactFlow();
-  const [type] = useDnD();
+  const [dragType] = useDnD();
 
   const onConnect: OnConnect = useCallback(
     (connection) => {
-      const newEdge: Edge = {
+      const newEdge: DeletableFlowEdge = {
         id: "e" + connection.source + "-" + connection.target,
         source: connection.source,
         target: connection.target,
@@ -65,7 +64,7 @@ export const DiagramView = ({
         type: "deletable",
       };
 
-      setEdges((edges: Edge[]) => addEdge(newEdge, edges));
+      setEdges((edges) => addEdge(newEdge, edges));
     },
     [setEdges]
   );
@@ -81,15 +80,17 @@ export const DiagramView = ({
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      if (!type) {
+      if (!dragType) {
         return;
       }
+
+      const type = dragType as CustomFlowNode["type"];
 
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-      const newNode = {
+      const newNode: CustomFlowNode = {
         id: getId(),
         type,
         position,
@@ -98,7 +99,7 @@ export const DiagramView = ({
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [screenToFlowPosition, type, setNodes]
+    [screenToFlowPosition, dragType, setNodes]
   );
 
   return (

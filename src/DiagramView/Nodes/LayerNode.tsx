@@ -3,7 +3,9 @@ import { Position, type NodeProps, type Node } from "@xyflow/react";
 import { BaseNode } from "./BaseNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
 
-export const LayerNode = (props: NodeProps<Node<Record<string, never>>>) => {
+export type LayerFlowNode = Node<Record<string, never>, "layer">;
+
+export const LayerNode = (props: NodeProps<LayerFlowNode>) => {
   return (
     <BaseNode {...props}>
       <div>Layer</div>

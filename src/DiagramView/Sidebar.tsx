@@ -6,21 +6,14 @@ import {
   SidebarContainer,
   SidebarDescription,
 } from "./Sidebar.styles";
-
-type NodeType =
-  | "input"
-  | "default"
-  | "output"
-  | "source"
-  | "layer"
-  | "intersection";
+import type { CustomNodeType } from "./Nodes";
 
 export const Sidebar = () => {
   const [, setType] = useDnD();
 
   const onDragStart = (
     event: DragEvent<HTMLDivElement>,
-    nodeType: NodeType
+    nodeType: CustomNodeType
   ) => {
     setType(nodeType);
     event.dataTransfer.effectAllowed = "move";

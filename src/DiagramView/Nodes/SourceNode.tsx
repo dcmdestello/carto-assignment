@@ -10,7 +10,9 @@ import { BaseNode } from "./BaseNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
 import { UrlInputWrapper, UrlLabel } from "./SourceNode.styles";
 
-export const SourceNode = (props: NodeProps<Node<{ url: string }, "url">>) => {
+export type SourceFlowNode = Node<{ url?: string }, "source">;
+
+export const SourceNode = (props: NodeProps<SourceFlowNode>) => {
   const { setNodes } = useReactFlow();
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

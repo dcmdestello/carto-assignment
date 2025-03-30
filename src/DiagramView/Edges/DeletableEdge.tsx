@@ -9,6 +9,8 @@ import {
   type EdgeProps,
 } from "@xyflow/react";
 
+export type DeletableFlowEdge = Edge<Record<string, never>, "deletable">;
+
 export const DeletableEdge = ({
   id,
   sourceX,
@@ -18,7 +20,7 @@ export const DeletableEdge = ({
   sourcePosition,
   targetPosition,
   selected,
-}: EdgeProps<Edge>) => {
+}: EdgeProps<DeletableFlowEdge>) => {
   const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,

@@ -3,9 +3,9 @@ import { Position, type NodeProps, type Node } from "@xyflow/react";
 import { BaseNode } from "./BaseNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
 
-export const IntersectionNode = (
-  props: NodeProps<Node<Record<string, never>>>
-) => {
+export type IntersectionFlowNode = Node<Record<string, never>, "intersection">;
+
+export const IntersectionNode = (props: NodeProps<IntersectionFlowNode>) => {
   return (
     <BaseNode {...props}>
       <div>Intersection</div>

@@ -1,15 +1,12 @@
-import {
-  ReactFlowProvider,
-  useEdgesState,
-  useNodesState,
-  type Node,
-  type Edge,
-} from "@xyflow/react";
+import { ReactFlowProvider, useEdgesState, useNodesState } from "@xyflow/react";
 
 import { DnDProvider } from "./DnDContext";
 import { useState } from "react";
 import { DiagramView } from "./DiagramView/DiagramView";
 import { MapView } from "./MapView";
+import { CustomFlowNode } from "./DiagramView/Nodes/types";
+import { LayerFlowNode, SourceFlowNode } from "./DiagramView/Nodes";
+import { DeletableFlowEdge } from "./DiagramView/Edges";
 
 export type ViewMode = "diagram" | "map";
 
@@ -24,7 +21,7 @@ const initialNodes = [
     data: {
       url: "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson",
     },
-  },
+  } as SourceFlowNode,
   {
     id: "initial-node_1",
     type: "source",
@@ -35,7 +32,7 @@ const initialNodes = [
     data: {
       url: "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_scale_rank.geojson",
     },
-  },
+  } as SourceFlowNode,
   {
     id: "initial-node_2",
     type: "layer",
@@ -44,7 +41,7 @@ const initialNodes = [
       y: 175,
     },
     data: {},
-  },
+  } as LayerFlowNode,
   {
     id: "initial-node_3",
     type: "layer",
@@ -53,8 +50,9 @@ const initialNodes = [
       y: 275,
     },
     data: {},
-  },
+  } as LayerFlowNode,
 ];
+
 const initialEdges = [
   {
     id: "edge-initial-node_1-initial-node_3",
@@ -63,7 +61,7 @@ const initialEdges = [
     sourceHandle: "a",
     targetHandle: "a",
     type: "deletable",
-  },
+  } as DeletableFlowEdge,
   {
     id: "edge-initial-node_0-initial-node_2",
     source: "initial-node_0",
@@ -71,13 +69,13 @@ const initialEdges = [
     sourceHandle: "a",
     targetHandle: "a",
     type: "deletable",
-  },
+  } as DeletableFlowEdge,
 ];
 
 // Mock Router
 const AppRouter = () => {
-  const nodesState = useNodesState<Node>(initialNodes);
-  const edgesState = useEdgesState<Edge>(initialEdges);
+  const nodesState = useNodesState<CustomFlowNode>(initialNodes);
+  const edgesState = useEdgesState<DeletableFlowEdge>(initialEdges);
 
   const [viewMode, setViewMode] = useState<ViewMode>("diagram");
   if (viewMode === "diagram") {
