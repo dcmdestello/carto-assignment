@@ -8,6 +8,7 @@ import * as turf from "@turf/turf";
 import type { ViewMode } from "../App";
 import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
 import { buildLayers, calcLayers, type PropertiesType } from "./layers";
+import { Button } from "@mui/material";
 
 type MapViewProps = {
   setViewMode: (s: ViewMode) => void;
@@ -47,13 +48,14 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
   return (
     <div className="dndflow">
       <div className="floatingAbsoluteActionsWrapper">
-        <button
+        <Button
           onClick={() => {
             setViewMode("diagram");
           }}
+          variant="contained"
         >
           Diagram
-        </button>
+        </Button>
       </div>
       <DeckGL
         initialViewState={initialViewState}

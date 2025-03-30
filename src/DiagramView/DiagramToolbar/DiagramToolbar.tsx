@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useReactFlow } from "@xyflow/react";
 import type { ViewMode } from "../../App";
+import { Button } from "@mui/material";
 
 interface DiagramToolbarProps {
   setViewMode: (mode: ViewMode) => void;
@@ -44,34 +45,35 @@ export const DiagramToolbar = ({ setViewMode }: DiagramToolbarProps) => {
 
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      <button
+      <Button
         onClick={() => {
           handleLoad();
         }}
       >
         Load
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           handleSave();
         }}
       >
         Save
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           handleClear();
         }}
       >
         Clear
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           setViewMode("map");
         }}
+        variant="contained"
       >
         Map
-      </button>
+      </Button>
     </div>
   );
 };
