@@ -5,13 +5,13 @@ import {
   type Node,
 } from "@xyflow/react";
 
-import "./BaseNode.css";
+import { BaseNodeContainer } from "./BaseNode.styles";
 
 interface BaseNodeProps extends NodeProps<Node> {
   children: React.ReactNode;
 }
 
-export const BaseNode = ({ id, children }: BaseNodeProps) => {
+export const BaseNode = ({ id, children, selected }: BaseNodeProps) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = () => {
@@ -19,11 +19,11 @@ export const BaseNode = ({ id, children }: BaseNodeProps) => {
   };
 
   return (
-    <div className="base-node">
+    <BaseNodeContainer selected={selected}>
       <NodeToolbar>
         <button onClick={handleDelete}>delete</button>
       </NodeToolbar>
       {children}
-    </div>
+    </BaseNodeContainer>
   );
 };
