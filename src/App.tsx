@@ -13,8 +13,6 @@ import { MapView } from "./MapView";
 
 export type ViewMode = "diagram" | "map";
 
-import "./App.css";
-
 const initialNodes = [
   {
     id: "node_0",
