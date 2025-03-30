@@ -9,6 +9,10 @@ import type { ViewMode } from "../App";
 import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
 import { buildLayers, calcLayers, type PropertiesType } from "./layers";
 import { Button } from "@mui/material";
+import {
+  FloatingMapToolbarContainer,
+  MapViewContainer,
+} from "./MapView.styles";
 
 type MapViewProps = {
   setViewMode: (s: ViewMode) => void;
@@ -46,8 +50,8 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
   });
 
   return (
-    <div className="dndflow">
-      <div className="floatingAbsoluteActionsWrapper">
+    <MapViewContainer>
+      <FloatingMapToolbarContainer>
         <Button
           onClick={() => {
             setViewMode("diagram");
@@ -56,7 +60,7 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
         >
           Diagram
         </Button>
-      </div>
+      </FloatingMapToolbarContainer>
       <DeckGL
         initialViewState={initialViewState}
         controller
@@ -67,6 +71,6 @@ export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
         }
         layers={layers}
       />
-    </div>
+    </MapViewContainer>
   );
 };
