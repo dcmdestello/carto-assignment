@@ -12,3 +12,15 @@ export const SidebarDescription = styled("div")({
   textAlign: "center",
   fontWeight: "bold",
 });
+
+export const DnDItem = styled("div")({
+  height: "20px",
+  padding: "4px",
+  border: "1px solid #1976d2",
+  borderRadius: "2px",
+  marginBottom: "10px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  cursor: "grab",
+});
