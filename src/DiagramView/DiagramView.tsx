@@ -13,7 +13,6 @@ import {
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
-import "./DiagramView.css";
 
 import { Sidebar } from "./Sidebar";
 import { useDnD } from "../DnDContext";
@@ -22,6 +21,7 @@ import { SourceNode, LayerNode } from "./Nodes";
 import { DeletableEdge } from "./Edges/DeletableEdge";
 import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
 import { IntersectionNode } from "./Nodes/IntersectionNode";
+import { DiagramViewContainer } from "./DiagramView.styles";
 
 const nodeTypes = {
   source: SourceNode,
@@ -47,7 +47,6 @@ export const DiagramView = ({
   nodesState,
   edgesState,
 }: DiagramViewProps) => {
-  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = nodesState;
   const [edges, setEdges, onEdgesChange] = edgesState;
   const { screenToFlowPosition } = useReactFlow();
@@ -101,29 +100,27 @@ export const DiagramView = ({
   );
 
   return (
-    <div className="dndflow">
+    <DiagramViewContainer>
       <Panel position="top-right">
         <DiagramToolbar setViewMode={setViewMode} />
       </Panel>
       <Sidebar />
-      <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          fitView
-          style={{ backgroundColor: "#F7F9FB" }}
-        >
-          <Controls />
-          <Background />
-        </ReactFlow>
-      </div>
-    </div>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        fitView
+        style={{ backgroundColor: "#F7F9FB" }}
+      >
+        <Controls />
+        <Background />
+      </ReactFlow>
+    </DiagramViewContainer>
   );
 };

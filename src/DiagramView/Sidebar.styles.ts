@@ -5,6 +5,8 @@ export const SidebarContainer = styled("aside")({
   padding: "15px 10px",
   fontSize: "12px",
   background: "#fcfcfc",
+  width: "20vw",
+  maxWidth: "250px",
 });
 
 export const SidebarDescription = styled("div")({
