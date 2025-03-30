@@ -1,3 +1,5 @@
+import { Fab } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -32,19 +34,20 @@ export const DeletableEdge = ({
       <BaseEdge id={id} path={edgePath} />
       {selected && (
         <EdgeLabelRenderer>
-          <button
-            style={{
+          <Fab
+            size="small"
+            aria-label="add"
+            sx={{
               position: "absolute",
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px) scale(0.75)`,
               pointerEvents: "all",
             }}
-            className="nodrag nopan"
             onClick={() => {
               setEdges((es) => es.filter((e) => e.id !== id));
             }}
           >
-            delete
-          </button>
+            <DeleteIcon fontSize="small" />
+          </Fab>
         </EdgeLabelRenderer>
       )}
     </>

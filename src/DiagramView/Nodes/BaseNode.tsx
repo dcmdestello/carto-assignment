@@ -4,8 +4,10 @@ import {
   type NodeProps,
   type Node,
 } from "@xyflow/react";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { BaseNodeContainer } from "./BaseNode.styles";
+import { Fab } from "@mui/material";
 
 interface BaseNodeProps extends NodeProps<Node> {
   children: React.ReactNode;
@@ -21,7 +23,9 @@ export const BaseNode = ({ id, children, selected }: BaseNodeProps) => {
   return (
     <BaseNodeContainer selected={selected}>
       <NodeToolbar>
-        <button onClick={handleDelete}>delete</button>
+        <Fab size="small" aria-label="add" onClick={handleDelete}>
+          <DeleteIcon fontSize="small" />
+        </Fab>
       </NodeToolbar>
       {children}
     </BaseNodeContainer>
