@@ -10,7 +10,7 @@ type NodeType =
   | "intersection";
 
 export const Sidebar = () => {
-  const [_, setType] = useDnD();
+  const [, setType] = useDnD();
 
   const onDragStart = (
     event: DragEvent<HTMLDivElement>,
@@ -27,21 +27,27 @@ export const Sidebar = () => {
       </div>
       <div
         className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "source")}
+        onDragStart={(event) => {
+          onDragStart(event, "source");
+        }}
         draggable
       >
         Source Node
       </div>
       <div
         className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "layer")}
+        onDragStart={(event) => {
+          onDragStart(event, "layer");
+        }}
         draggable
       >
         Layer Node
       </div>
       <div
         className="dndnode output"
-        onDragStart={(event) => onDragStart(event, "intersection")}
+        onDragStart={(event) => {
+          onDragStart(event, "intersection");
+        }}
         draggable
       >
         Intersection Node
