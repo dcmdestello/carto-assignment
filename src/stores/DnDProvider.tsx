@@ -16,8 +16,6 @@ export const DnDProvider = ({ children }: DnDProviderProps) => {
   );
 };
 
-export default DnDContext;
-
 export const useDnD = () => {
   return useContext(DnDContext);
 };

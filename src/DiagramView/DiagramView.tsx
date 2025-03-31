@@ -13,7 +13,7 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import { Sidebar } from "./Sidebar";
-import { useDnD } from "../stores/DnDContext";
+import { useDnD } from "../stores/DnDProvider";
 import type { ViewMode } from "../App";
 import { SourceNode, LayerNode, IntersectionNode } from "./Nodes";
 import { DeletableEdge, DeletableFlowEdge } from "./Edges/DeletableEdge";

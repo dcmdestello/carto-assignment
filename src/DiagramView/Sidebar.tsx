@@ -1,5 +1,5 @@
 import { type DragEvent } from "react";
-import { useDnD } from "../stores/DnDContext";
+import { useDnD } from "../stores/DnDProvider";
 
 import {
   DnDItem,

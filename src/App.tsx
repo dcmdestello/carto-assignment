@@ -1,4 +1,4 @@
-import { DnDProvider } from "./stores/DnDContext";
+import { DnDProvider } from "./stores/DnDProvider";
 import { useState } from "react";
 import { DiagramView } from "./DiagramView/DiagramView";
 import { MapView } from "./MapView";
