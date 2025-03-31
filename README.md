@@ -56,15 +56,19 @@ There is a mock "router" AppRouter just to manually handle toggling between diag
 I was surprised to find that rendering an arbitrary piece of GeoJson with deck.gl was uncomfortable for two unexpected reasons:
 
 - Different instances of GeoJSON would need very different styling configurations to be rendered in nice ways. I applied some styling that seemed reasonable for the examples I was working with, I didn't think the default styling was being good enough.
-- Need to manually define a camera state ("ViewState") that is appropiate with the absolute coordinates of the data. There is no auto-fit functionality similar ReactFlow has (that I've found in the short time of looking at this).
-
-The documentation is filled with code that has ad-hoc styling and camera for the hardcoded data in use.
+- Need to manually define a camera state ("ViewState") that is appropiate with the absolute coordinates of the data. There is no auto-fit functionality similar to ReactFlow's fitView (that I've found in the short time of looking at this).
 
 Now, initially I implemented it so the GeoJsonLayer would just receive the url as data so it would automatically handle fetching and parsing, simple and nice. However, I wanted to calculate a bounding box of the data to build a somewhat reasonable ViewState to use as camera, for which I needed the GeoJson data explicitely, not just the urls. Similarly, to implement intersection I'd have to apply the intersect operation to the data itself. Because of these reasons I changed to fetch the data from urls manually and feed it to the GeoJsonLayer, as well as calculate the bounding box and the intersections with it. That way me and the library are not both fetching the same thing twice.
 
-To calculate the GeoJson data I implemented a `resolveNodeGeoJsonData` that is initially called on LayerNodes and recursively uses itself to figure out what GeoJson to feed into it from a node sources. As mentioned it handles arbitrarily composed Intersection Nodes.
+To calculate the GeoJson data I implemented a `resolveNodeGeoJsonData` that is initially called on LayerNodes and recursively uses itself to figure out what GeoJson to feed into it from incoming connections. As mentioned it handles arbitrarily composed Intersection Nodes.
 
 I tried to use util functions from turf as much as possible, so that the code is more robust against arbitrary GeoJson shapes that I needed to process to calculate the bounding box and the intersection operation input.
+
+### ReactFlow
+
+Thought ReactFlow was very reasonable. Implement a few custom Nodes, Edges and Handles that hold the rules I wanted my diagram to work with. Only had to be careful with avoiding collision between the node ids when loading them from the storage, that's why my id generation function includes the timestamp.
+
+Because the user may input any data into the Source Nodes url field, or it may try to intersect two GeoJson that are not intersectable (non-Polygons geometry), there's a bunch of check and null returns to handle those cases. A Diagram with a wrong GeoJson or disconnected nodes will still work.
 
 ## Folder structure
 
