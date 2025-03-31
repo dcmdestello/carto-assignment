@@ -6,11 +6,8 @@ import * as turf from "@turf/turf";
 
 import type { ViewMode } from "../App";
 import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
-import {
-  type PropertiesType,
-  initGeoJsonLayer,
-  resolveNodeGeoJsonData,
-} from "./layers";
+import { type PropertiesType, initGeoJsonLayer } from "./geoJsonLayer";
+import { resolveNodeGeoJsonData } from "./geoJsonUtils";
 import { Button } from "@mui/material";
 import {
   FloatingMapToolbarContainer,
