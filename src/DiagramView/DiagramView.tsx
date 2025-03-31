@@ -9,6 +9,7 @@ import {
   Background,
   Panel,
   type OnConnect,
+  BackgroundVariant,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -56,7 +57,7 @@ export const DiagramView = ({
   const onConnect: OnConnect = useCallback(
     (connection) => {
       const newEdge: DeletableFlowEdge = {
-        id: "e" + connection.source + "-" + connection.target,
+        id: "edge-" + connection.source + "-" + connection.target,
         source: connection.source,
         target: connection.target,
         sourceHandle: connection.sourceHandle,
@@ -122,7 +123,7 @@ export const DiagramView = ({
         style={{ backgroundColor: "#F7F9FB" }}
       >
         <Controls />
-        <Background />
+        <Background variant={BackgroundVariant.Lines} />
       </ReactFlow>
     </DiagramViewContainer>
   );
