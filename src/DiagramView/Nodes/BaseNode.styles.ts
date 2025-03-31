@@ -12,3 +12,8 @@ export const BaseNodeContainer = styled("div")(
     gap: "5px",
   })
 );
+
+export const BigNodeLabel = styled("div")({
+  paddingTop: "10px",
+  paddingBottom: "10px",
+});
