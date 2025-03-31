@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import type { Node, Edge } from "@xyflow/react";
+import { useEffect, useState } from "react";
 import DeckGL from "@deck.gl/react";
 import type { Feature, Geometry } from "geojson";
 import type { MapViewState, PickingInfo } from "@deck.gl/core";
@@ -8,63 +7,69 @@ import * as turf from "@turf/turf";
 import type { ViewMode } from "../App";
 import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
 import {
-  initGeoJsonLayer,
-  getLayerSourceNodes,
-  loadGeoJsonUrl,
   type PropertiesType,
+  initGeoJsonLayer,
+  resolveNodeGeoJsonData,
 } from "./layers";
 import { Button } from "@mui/material";
 import {
   FloatingMapToolbarContainer,
   MapViewContainer,
 } from "./MapView.styles";
+import { DeletableFlowEdge } from "../DiagramView/Edges";
+import { CustomFlowNode } from "../DiagramView/Nodes";
+import { GeoJsonLayer } from "deck.gl";
 
 type MapViewProps = {
   setViewMode: (s: ViewMode) => void;
-  nodes: Node[];
-  edges: Edge[];
+  nodes: CustomFlowNode[];
+  edges: DeletableFlowEdge[];
 };
 
 export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
-  const layerSources = useMemo(
-    () => getLayerSourceNodes(nodes, edges),
-    [nodes, edges]
-  );
-  // const layers = layerSources.map(buildLayers);
-  const [layers, setLayers] = useState<any[]>([]);
-
-  useEffect(() => {
-    const loadLayers = async (): Promise<void> => {
-      const geoJsonArray = await Promise.all(
-        // TODO handle array of inputs / intersection
-        layerSources.map((sourceNode) => {
-          if (!sourceNode) return null;
-          return loadGeoJsonUrl(sourceNode.data.url as string);
-        })
-      );
-
-      const geoJsonLayers = geoJsonArray.map((geoJson, index) => {
-        if (!geoJson) return null;
-        const layerSource = layerSources[index];
-        if (!layerSource) return null;
-        return initGeoJsonLayer(layerSource.id, geoJson);
-      });
-      setLayers(geoJsonLayers.filter(Boolean));
-
-      const bboxes = geoJsonArray
-        .filter(Boolean)
-        .map((geoJson) => turf.bbox(geoJson as turf.AllGeoJSON));
-      const bbox = combineBBoxes(bboxes);
-      setInitialViewState(getViewStateFromBBox(bbox));
-    };
-    loadLayers().catch(console.error);
-  }, [layerSources]);
-
+  // Reasonable values for the default diagram, but will calculate the viewState "camera"
+  // values based on the actual bounding box of the dynamic GeoJSON that gets loaded
   const [initialViewState, setInitialViewState] = useState<MapViewState>({
     latitude: 51.47,
     longitude: 0.45,
     zoom: 4,
   });
+  const [layers, setLayers] = useState<GeoJsonLayer[]>([]);
+
+  useEffect(() => {
+    const loadLayers = async (): Promise<void> => {
+      const layerNodes = nodes
+        .filter((node) => node.type === "layer")
+        .sort((a, b) => b.position.y - a.position.y);
+
+      const geoJsons = await Promise.all(
+        layerNodes.map((layerNode) =>
+          resolveNodeGeoJsonData(layerNode, nodes, edges)
+        )
+      );
+
+      const geoJsonLayers = geoJsons.map((geoJson, index) => {
+        if (!geoJson) return null;
+        const layerNode = layerNodes[index];
+        return initGeoJsonLayer(layerNode.id, geoJson);
+      });
+
+      const validGeoJsonLayers = geoJsonLayers.filter(
+        Boolean
+      ) as GeoJsonLayer[];
+
+      setLayers(validGeoJsonLayers);
+
+      const bboxes = geoJsons
+        .filter(Boolean)
+        .map((geoJson) => turf.bbox(geoJson as turf.AllGeoJSON));
+      if (bboxes.length === 0) return;
+      const bbox = combineBBoxes(bboxes);
+      setInitialViewState(getViewStateFromBBox(bbox));
+    };
+
+    loadLayers().catch(console.error);
+  }, [nodes, edges]);
 
   return (
     <MapViewContainer>
