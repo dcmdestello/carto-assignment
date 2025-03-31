@@ -91,7 +91,7 @@ I would not argue that these are the universally correct decisions, or that othe
 
 ## Closing thoughts
 
-I thought this was a very nice exercise of demonstrating ability to take on a new framework and achive something interesting quickly. I found the most time-consuming part was learning about the GeoJson specification and figuring out how to handle it: when to use the framework, external utils or to write a solution in-place.
+I thought this was a very nice exercise of demonstrating ability to take on a new framework and achive something interesting quickly. I found the most time-consuming part was learning about the GeoJson specification and figuring out how to best handle it: when to use the framework, external utils or to write a solution in-place.
 
 Cheers
 
