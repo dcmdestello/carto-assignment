@@ -6,7 +6,7 @@ export const SidebarContainer = styled("aside")({
   fontSize: "12px",
   background: "#fcfcfc",
   width: "20vw",
-  maxWidth: "250px",
+  maxWidth: "325px",
   display: "flex",
   flexDirection: "column",
   gap: "40px",
@@ -21,6 +21,7 @@ export const SidebarTitleWrapper = styled("div")({
 export const SidebarDescription = styled("div")({
   marginTop: "10px",
   textAlign: "center",
+  fontSize: "14px",
 });
 
 export const DnDItem = styled(Paper)({

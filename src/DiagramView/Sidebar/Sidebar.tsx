@@ -29,7 +29,7 @@ export const Sidebar = () => {
   return (
     <SidebarContainer>
       <SidebarTitleWrapper>
-        <Typography color="primary" fontWeight="bold">
+        <Typography color="primary" fontWeight="bold" fontSize="18px">
           Nodes
         </Typography>
         <SidebarDescription>Drag these onto the diagram</SidebarDescription>
