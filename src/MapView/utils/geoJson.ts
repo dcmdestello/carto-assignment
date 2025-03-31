@@ -1,8 +1,8 @@
 import type { FeatureCollection, MultiPolygon, Polygon } from "geojson";
 import * as turf from "@turf/turf";
 import type { AllGeoJSON } from "@turf/turf";
-import type { CustomFlowNode } from "../DiagramView/Nodes";
-import { DeletableFlowEdge } from "../DiagramView/Edges";
+import type { CustomFlowNode } from "../../DiagramView/Nodes";
+import { DeletableFlowEdge } from "../../DiagramView/Edges";
 
 export const loadGeoJsonUrl = async (url: string): Promise<AllGeoJSON> =>
   fetch(url).then((response) => response.json()) as Promise<AllGeoJSON>;

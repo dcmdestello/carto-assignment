@@ -5,25 +5,24 @@ import type { MapViewState, PickingInfo } from "@deck.gl/core";
 import * as turf from "@turf/turf";
 
 import type { ViewMode } from "../App";
-import { combineBBoxes, getViewStateFromBBox } from "./bboxUtils";
-import { type PropertiesType, initGeoJsonLayer } from "./geoJsonLayer";
-import { resolveNodeGeoJsonData } from "./geoJsonUtils";
+import { combineBBoxes, getViewStateFromBBox } from "./utils/bbox";
+import { type PropertiesType, initGeoJsonLayer } from "./utils/geoJsonLayer";
+import { resolveNodeGeoJsonData } from "./utils/geoJson";
 import { Button } from "@mui/material";
 import {
   FloatingMapToolbarContainer,
   MapViewContainer,
 } from "./MapView.styles";
-import { DeletableFlowEdge } from "../DiagramView/Edges";
-import { CustomFlowNode } from "../DiagramView/Nodes";
 import { GeoJsonLayer } from "deck.gl";
+import { useDiagramNodes, useDiagramEdges } from "../stores/DiagramProvider";
 
 type MapViewProps = {
   setViewMode: (s: ViewMode) => void;
-  nodes: CustomFlowNode[];
-  edges: DeletableFlowEdge[];
 };
 
-export const MapView = ({ setViewMode, nodes, edges }: MapViewProps) => {
+export const MapView = ({ setViewMode }: MapViewProps) => {
+  const [nodes] = useDiagramNodes();
+  const [edges] = useDiagramEdges();
   // Reasonable values for the default diagram, but will calculate the viewState "camera"
   // values based on the actual bounding box of the dynamic GeoJSON that gets loaded
   const [initialViewState, setInitialViewState] = useState<MapViewState>({
