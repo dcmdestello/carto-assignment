@@ -1,30 +1,12 @@
 import type { FeatureCollection, MultiPolygon, Polygon } from "geojson";
 import * as turf from "@turf/turf";
 import type { AllGeoJSON } from "@turf/turf";
+import { getIncomers } from "@xyflow/react";
 import type { CustomFlowNode } from "../../DiagramView/Nodes";
 import { DeletableFlowEdge } from "../../DiagramView/Edges";
 
 export const loadGeoJsonUrl = async (url: string): Promise<AllGeoJSON> =>
   fetch(url).then((response) => response.json()) as Promise<AllGeoJSON>;
-
-// Given a node and the diagram state (nodes, edges) it returns all the nodes
-// that connect to this node with a source-target connection.
-// (They connect to this node "from" other nodes).
-// Would have named this "getConnectedSourceNodes" but it could be confusing
-// with our custom diagram nodes with type==='source'
-const getConnectedFromNodes = (
-  node: CustomFlowNode,
-  nodes: CustomFlowNode[],
-  edges: DeletableFlowEdge[]
-) => {
-  const nodesById: Record<string, CustomFlowNode> = {};
-  nodes.forEach((node) => {
-    nodesById[node.id] = node;
-  });
-  const connectedEdges = edges.filter((edge) => edge.target === node.id);
-  const fromNodes = connectedEdges.map((edge) => nodesById[edge.source]);
-  return fromNodes;
-};
 
 const toFeatureCollection = (geojson: AllGeoJSON) => {
   if (geojson.type === "FeatureCollection") {
@@ -63,14 +45,14 @@ export const resolveNodeGeoJsonData = async (
   }
 
   if (node.type === "layer") {
-    const fromNodes = getConnectedFromNodes(node, nodes, edges);
+    const fromNodes = getIncomers(node, nodes, edges);
     if (fromNodes.length === 0) return null;
     const fromNode = fromNodes[0]; // there can be only 1
     return resolveNodeGeoJsonData(fromNode, nodes, edges);
   }
 
   if (node.type === "intersection") {
-    const fromNodes = getConnectedFromNodes(node, nodes, edges).sort(
+    const fromNodes = getIncomers(node, nodes, edges).sort(
       (a, b) => b.position.y - a.position.y
     );
     const geoJsons = await Promise.all(
