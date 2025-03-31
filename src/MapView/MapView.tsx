@@ -32,6 +32,9 @@ export const MapView = ({ setViewMode }: MapViewProps) => {
   });
   const [layers, setLayers] = useState<GeoJsonLayer[]>([]);
 
+  // Fetches GeoJson data and uses it to set state:
+  //   - layers: with GeoJsonLayers
+  //   - initialViewState: a camera from a calculated boundingbox
   useEffect(() => {
     const loadLayers = async (): Promise<void> => {
       const layerNodes = nodes
