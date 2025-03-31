@@ -38,7 +38,7 @@ export const SourceNode = (props: NodeProps<SourceFlowNode>) => {
           name="url"
           onChange={onChange}
           className="nodrag"
-          value={props.data.url}
+          value={props.data.url || ""}
         />
       </UrlInputWrapper>
     </BaseNode>
