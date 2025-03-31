@@ -77,13 +77,15 @@ Took some decisions about folder structure as if it belonged to a bigger project
 - Prefer named exports over default or mixed exports: Reduces uncertainty of how to import components and makes searching for usages a more surefire process.
 - A folder containing a component should look like:
 
-  > Component/
-  > ├── index.ts # Forwards exports from relevant files in the folder
-  > ├── Component.tsx # Main code component code
-  > ├── Component.styles.ts # Holds styled-subcomponent used
-  > └── [...] # Other files and folders that ideally should only be imported from within this folder.
+```
+Component/
+├── index.ts # Forwards exports from relevant files in the folder
+├── Component.tsx # Main code component code
+├── Component.styles.ts # Holds styled-subcomponent used
+└── [...] # Other files and folders that ideally should only be imported from within this folder.
+```
 
-  This allows to have explicitely named files, scopes the area of responsibility of each file and also enables importing the Component without referring to the inner file. So `import { Component } from './Component` as opposed to `import { Component } from './Component/Component'`. Particularly this makes it so intitially you could have a single, simple file `Component.tsx` somewhere and when that code grew and is in need of supporting files around it then a `Component` folder can be created in its place to hold the files and no import statement need to change.
+This allows to have explicitely named files, scopes the area of responsibility of each file and also enables importing the Component without referring to the inner file. So `import { Component } from './Component` as opposed to `import { Component } from './Component/Component'`. Particularly this makes it so intitially you could have a single, simple file `Component.tsx` somewhere and when that code grew and is in need of supporting files around it then a `Component` folder can be created in its place to hold the files and no import statement need to change.
 
 - I meant to have a `src/components` folder that would hold "brick" or "dumb" components that could be used across the application. These are components that only work with props/state to render some piece of UI that does not know anything about the specific domain or business needs of the product. In the end components from MaterialUI where enough and I didn't need to create any such reusable dumb components. However one of the most important aspects to folder structure and component splitting/composition is to clearly differentiate between the different kinds of components: The ones that care about routing, loading and handling data, the ones that compose pages of your platform, the different widgets and features of your UI with your look and feel and finally the reusable components that should not encode any business-aware logic.
 
