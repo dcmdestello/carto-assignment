@@ -7,6 +7,11 @@ import { DeletableFlowEdge } from "../../DiagramView/Edges";
 export const loadGeoJsonUrl = async (url: string): Promise<AllGeoJSON> =>
   fetch(url).then((response) => response.json()) as Promise<AllGeoJSON>;
 
+// Given a node and the diagram state (nodes, edges) it returns all the nodes
+// that connect to this node with a source-target connection.
+// (They connect to this node "from" other nodes).
+// Would have named this "getConnectedSourceNodes" but it could be confusing
+// with our custom diagram nodes with type==='source'
 const getConnectedFromNodes = (
   node: CustomFlowNode,
   nodes: CustomFlowNode[],
