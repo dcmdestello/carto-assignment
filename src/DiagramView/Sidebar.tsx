@@ -3,10 +3,17 @@ import { useDnD } from "../DnDContext";
 
 import {
   DnDItem,
+  DnDItemImage,
   SidebarContainer,
   SidebarDescription,
+  SidebarTitleWrapper,
 } from "./Sidebar.styles";
 import type { CustomNodeType } from "./Nodes";
+import { Card, Paper, Typography } from "@mui/material";
+
+import sourceNodeImg from "../assets/sourceNode.png";
+import intersectionNodeImg from "../assets/intersectionNode.png";
+import layerNodeImg from "../assets/layerNode.png";
 
 export const Sidebar = () => {
   const [, setType] = useDnD();
@@ -21,22 +28,20 @@ export const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <SidebarDescription>Drag these nodes onto the diagram</SidebarDescription>
+      <SidebarTitleWrapper>
+        <Typography color="primary" fontWeight="bold">
+          Nodes
+        </Typography>
+        <SidebarDescription>Drag these onto the diagram</SidebarDescription>
+      </SidebarTitleWrapper>
       <DnDItem
         onDragStart={(event) => {
           onDragStart(event, "source");
         }}
         draggable
       >
-        Source Node
-      </DnDItem>
-      <DnDItem
-        onDragStart={(event) => {
-          onDragStart(event, "layer");
-        }}
-        draggable
-      >
-        Layer Node
+        <b>Source Node</b>
+        <DnDItemImage src={sourceNodeImg}></DnDItemImage>
       </DnDItem>
       <DnDItem
         onDragStart={(event) => {
@@ -44,7 +49,17 @@ export const Sidebar = () => {
         }}
         draggable
       >
-        Intersection Node
+        <b>Intersection Node</b>
+        <DnDItemImage src={intersectionNodeImg}></DnDItemImage>
+      </DnDItem>
+      <DnDItem
+        onDragStart={(event) => {
+          onDragStart(event, "layer");
+        }}
+        draggable
+      >
+        <b>Layer Node</b>
+        <DnDItemImage src={layerNodeImg}></DnDItemImage>
       </DnDItem>
     </SidebarContainer>
   );

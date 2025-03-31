@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { Paper, styled } from "@mui/material";
 
 export const SidebarContainer = styled("aside")({
   borderRight: "1px solid #eee",
@@ -7,22 +7,41 @@ export const SidebarContainer = styled("aside")({
   background: "#fcfcfc",
   width: "20vw",
   maxWidth: "250px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "40px",
+  height: "auto",
+  overflowY: "auto",
+});
+
+export const SidebarTitleWrapper = styled("div")({
+  textAlign: "center",
 });
 
 export const SidebarDescription = styled("div")({
-  marginBottom: "10px",
+  marginTop: "10px",
   textAlign: "center",
-  fontWeight: "bold",
 });
 
-export const DnDItem = styled("div")({
-  height: "20px",
-  padding: "4px",
-  border: "1px solid #1976d2",
+export const DnDItem = styled(Paper)({
+  border: "1px solid rgba(25, 118, 210, 0.5)",
+  background: "rgba(25, 118, 210, 0.1)",
   borderRadius: "2px",
   marginBottom: "10px",
+  margin: "10px",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  cursor: "grab",
+
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  cursor: "grab",
+  gap: "10px",
+
+  fontSize: "14px",
+});
+
+export const DnDItemImage = styled("img")({
+  maxWidth: "80%",
 });
