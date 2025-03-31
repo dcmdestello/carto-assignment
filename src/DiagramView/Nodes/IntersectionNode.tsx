@@ -1,14 +1,14 @@
 import { Position, type NodeProps, type Node } from "@xyflow/react";
 
-import { BaseNode } from "./BaseNode";
+import { BaseCustomNode } from "./BaseCustomNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
-import { BigNodeLabel } from "./BaseNode.styles";
+import { BigNodeLabel } from "./BaseCustomNode.styles";
 
 export type IntersectionFlowNode = Node<Record<string, never>, "intersection">;
 
 export const IntersectionNode = (props: NodeProps<IntersectionFlowNode>) => {
   return (
-    <BaseNode {...props}>
+    <BaseCustomNode {...props}>
       <BigNodeLabel>Intersection</BigNodeLabel>
       <SingleConnectionHandle
         type="target"
@@ -23,6 +23,6 @@ export const IntersectionNode = (props: NodeProps<IntersectionFlowNode>) => {
         style={{ top: "70%" }}
       />
       <SingleConnectionHandle type="source" position={Position.Right} id="c" />
-    </BaseNode>
+    </BaseCustomNode>
   );
 };

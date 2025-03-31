@@ -6,7 +6,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 
-import { BaseNode } from "./BaseNode";
+import { BaseCustomNode } from "./BaseCustomNode";
 import { SingleConnectionHandle } from "./SingleConnectionHandle";
 import { UrlInputWrapper, UrlLabel } from "./SourceNode.styles";
 
@@ -28,7 +28,7 @@ export const SourceNode = (props: NodeProps<SourceFlowNode>) => {
   );
 
   return (
-    <BaseNode {...props}>
+    <BaseCustomNode {...props}>
       <div>Source</div>
       <SingleConnectionHandle type="source" position={Position.Right} id="a" />
       <UrlInputWrapper>
@@ -41,6 +41,6 @@ export const SourceNode = (props: NodeProps<SourceFlowNode>) => {
           value={props.data.url || ""}
         />
       </UrlInputWrapper>
-    </BaseNode>
+    </BaseCustomNode>
   );
 };

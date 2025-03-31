@@ -7,14 +7,14 @@ import {
 } from "@xyflow/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { BaseNodeContainer } from "./BaseNode.styles";
+import { BaseNodeContainer } from "./BaseCustomNode.styles";
 import { Fab } from "@mui/material";
 
 interface BaseNodeProps extends NodeProps<Node> {
   children: React.ReactNode;
 }
 
-export const BaseNode = ({ id, children, selected }: BaseNodeProps) => {
+export const BaseCustomNode = ({ id, children, selected }: BaseNodeProps) => {
   const { deleteElements } = useReactFlow();
 
   const handleDelete = () => {

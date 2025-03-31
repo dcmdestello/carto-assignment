@@ -1,5 +1,5 @@
 import { type DragEvent } from "react";
-import { useDnD } from "../stores/DnDProvider";
+import { useDnD } from "../../stores/DnDProvider";
 
 import {
   DnDItem,
@@ -8,12 +8,12 @@ import {
   SidebarDescription,
   SidebarTitleWrapper,
 } from "./Sidebar.styles";
-import type { CustomNodeType } from "./Nodes";
+import type { CustomNodeType } from "../Nodes";
 import { Typography } from "@mui/material";
 
-import sourceNodeImg from "../assets/sourceNode.png";
-import intersectionNodeImg from "../assets/intersectionNode.png";
-import layerNodeImg from "../assets/layerNode.png";
+import sourceNodeImg from "../../assets/sourceNode.png";
+import intersectionNodeImg from "../../assets/intersectionNode.png";
+import layerNodeImg from "../../assets/layerNode.png";
 
 export const Sidebar = () => {
   const [, setType] = useDnD();
