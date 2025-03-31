@@ -2,8 +2,6 @@ import { useCallback, type DragEvent } from "react";
 import {
   ReactFlow,
   addEdge,
-  useNodesState,
-  useEdgesState,
   Controls,
   useReactFlow,
   Background,
@@ -15,13 +13,14 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import { Sidebar } from "./Sidebar";
-import { useDnD } from "../DnDContext";
+import { useDnD } from "../stores/DnDContext";
 import type { ViewMode } from "../App";
 import { SourceNode, LayerNode, IntersectionNode } from "./Nodes";
 import { DeletableEdge, DeletableFlowEdge } from "./Edges/DeletableEdge";
 import { DiagramToolbar } from "./DiagramToolbar/DiagramToolbar";
 import { DiagramViewContainer } from "./DiagramView.styles";
 import { CustomFlowNode } from "./Nodes/types";
+import { useDiagramEdges, useDiagramNodes } from "../stores/DiagramProvider";
 
 const nodeTypes = {
   source: SourceNode,
@@ -40,17 +39,11 @@ const getId = () => `node_${id++}_${t0}`;
 
 type DiagramViewProps = {
   setViewMode: (mode: ViewMode) => void;
-  nodesState: ReturnType<typeof useNodesState<CustomFlowNode>>;
-  edgesState: ReturnType<typeof useEdgesState<DeletableFlowEdge>>;
 };
 
-export const DiagramView = ({
-  setViewMode,
-  nodesState,
-  edgesState,
-}: DiagramViewProps) => {
-  const [nodes, setNodes, onNodesChange] = nodesState;
-  const [edges, setEdges, onEdgesChange] = edgesState;
+export const DiagramView = ({ setViewMode }: DiagramViewProps) => {
+  const [nodes, setNodes, onNodesChange] = useDiagramNodes();
+  const [edges, setEdges, onEdgesChange] = useDiagramEdges();
   const { screenToFlowPosition } = useReactFlow();
   const [dragType] = useDnD();
 
